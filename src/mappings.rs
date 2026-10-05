@@ -19,13 +19,16 @@ pub enum Kind {
 
 pub const FIFINE_VID: u16 = 0x3142;
 pub const AMPGD6_PID: u16 = 0x0007;
+pub const AMPGD6_PID_REV: u16 = 0x0060;
 
 // Map all queries to usage page 65440 and usage id 1 for now
 pub const AMPGD6_QUERY: DeviceQuery = DeviceQuery::new(65440, 1, FIFINE_VID, AMPGD6_PID);
+pub const AMPGD6_QUERY_REV: DeviceQuery = DeviceQuery::new(65440, 1, FIFINE_VID,AMPGD6_PID_REV);
 
-pub const QUERIES: [DeviceQuery; 1] = [
-    AMPGD6_QUERY,
+pub const QUERIES: [DeviceQuery; 2] = [
+    AMPGD6_QUERY_REV, AMPGD6_QUERY,
 ];
+
 
 /// Returns correct image format for device kind and key
 pub fn get_image_format_for_key(kind: &Kind, _key: u8) -> ImageFormat {
@@ -49,7 +52,7 @@ impl Kind {
     pub fn from_vid_pid(vid: u16, pid: u16) -> Option<Self> {
         match vid {
             FIFINE_VID => match pid {
-                AMPGD6_PID => Some(Kind::AMPGD6),
+                AMPGD6_PID | AMPGD6_PID_REV => Some(Kind::AMPGD6),
                 _ => None,
             },
             _ => None,
